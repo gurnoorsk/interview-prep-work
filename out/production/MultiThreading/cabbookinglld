@@ -1,0 +1,106 @@
+1. Design a primitive cab aggregator, with the following limited requirements:
+- customer opens the app and sees nearby idle cabs on a map
+- customer can request a cab only from his/her current location
+- customer's request is broadcasted to nearby idle drivers
+- 1st driver to accept the request gets to serve the customer
+Design in terms of models, services, apis/communication, discuss end to end flows
+
+
+LLD
+
+
+User
+id int pkey
+name varchar
+phonenumber varchar
+usertype varchar (DRIVER/RIDER)
+ratings varchar
+
+driver
+driver_id fkey()
+status
+license number
+
+
+
+vehicle
+vid int (pkey)
+driver_id fkey
+chesinumber varchar
+model varchar
+
+
+trip
+id int pkey
+user_id fkey
+cords varchar
+trip_stauts varchar (requested/allocated/inrpogress/completed/canceled)
+Assigned_driver_id int fkey
+
+
+Services
+M Service 1
+UserRegisteryService
+ addUser()
+ edituser()
+ deleteUser()
+ getUser()
+
+VehicleRegisteryService
+    registerVehilce()
+     removevehicle()
+     replacevehilcle
+
+
+
+Tripbooking service
+    addTrip()
+    cancleTrip()
+    updateTrip()
+    getTrip()
+    getTrips();
+
+M service 2
+DriverLocatorService
+    trackDrivers();
+    fetchNearbyDrivce()
+
+M service 3
+DriverAllocatorService
+    allocateDriver();
+
+
+
+APIs
+
+/findNearbyDrivers?lats=87&longs=45
+-> GET
+
+/createtrip
+-> POST
+202
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

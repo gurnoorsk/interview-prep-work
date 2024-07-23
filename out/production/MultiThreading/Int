@@ -1,0 +1,7 @@
+if all the opening and closing braces matches then return true else return false {(()))(((){}{><}[]]][>(}
+
+
+Write a code to check if this is a magic square of not
+  2   7   6
+  9   5   1
+  4   3   8

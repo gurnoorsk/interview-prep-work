@@ -1,0 +1,54 @@
+Function -> R apply(T t).
+Takes one argument T and return a value of type R.
+Ex ->  Function<String, Integer> stringLength = s -> s.length();
+
+              String text = "Hello, world!";
+              int length = stringLength.apply(text);
+
+ These methods (andThen() and compose()) are specific to the Function interface and are
+ used for composing functions by chaining them together. The Function interface allows for combining functions,
+  applying one function after another (andThen()) or before another (compose()), which is particularly useful in
+  functional programming paradigms.
+
+  andThen() creates a function that applies the specified function after the current function.
+  compose() creates a function that applies the specified function before the current function.
+  The choice between andThen() and compose() depends on the sequence in which you want the functions to be
+  applied when composing them. If you want the functions to be applied in the order they are written (left to right),
+   you can use andThen(). Conversely, if you want the functions to be applied in the opposite order (right to left),
+   you can use compose().
+
+Consumer -> void accept(T t)
+Takes one argument and return nothing
+ex ->  List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
+
+        // Creating a Consumer to print each element
+        Consumer<String> printName = name -> System.out.println("Hello, " + name);
+
+        // Using forEach to apply the Consumer to each element in the list
+        names.forEach(printName);
+
+Supplier -> T get()
+Takes no argument but returns a value
+ex ->  Supplier<Integer> randomNumberSupplier = () -> new Random().nextInt(100);
+
+        // Getting a random number using the Supplier
+        int randomNumber = randomNumberSupplier.get();
+        System.out.println("Random Number: " + randomNumber);
+
+
+
+What is future ? -> In Java, a Future object represents the result of an asynchronous computation, which might not yet be available
+ but will be available at some point in the future. You can define a Future object using the java.util.concurrent.Future
+ interface in combination with asynchronous tasks provided by executors from the java.util.concurrent package.
+
+CompletableFuture<T>
+-> introduced in java 8 . It is a implementation of future and a completableTask Interface which provides the functionality to
+complete a async task explicitly or handle exceptions and to chain to multiple future objects.
+
+1) runAsync(Runnable<> r) -> used to implement a task
+CompletableFuture<Void> runAsyncFuture = new CompletableFuture();
+completableFuture.runAsync(()->{
+
+}); or CompletableFuture<Void> runAsyncFuture = CompletableFuture.runAync(()->{});
+
+

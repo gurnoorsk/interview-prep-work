@@ -1,0 +1,86 @@
+In the context of designing a file sharing system akin to Google Drive, consider the following user roles:
+
+User1: File owner with full access.
+User2: Possesses read-only permissions for the file.
+User3: Lacks access but can solicit access from the owner.
+Questions:
+Regarding file size constraints (maximum 25MB), would you implement file size validation on the client or
+server side? Please elucidate your approach.
+
+In the scenario where User3 seeks access to a file, how would you facilitate notifying the owner of the file
+ about this access request? Kindly elaborate on your proposed notification mechanism.
+
+
+
+
+File
+-> id (pkey)
+-> name
+-> path
+-> owner_id (fkey)
+
+version_history
+file_id (fkey)
+version (1.0)
+user_id (fkey)
+reason (varchar)
+
+
+User
+->id (pkey)
+-> name
+-> email
+-> phone
+
+File_readers
+file_id (fkey)
+user_id (fkey)
+access_level (REad,write,readwrite)
+
+
+
+Read_access_Request
+id pkey
+file_id (fkey)
+user_id (fkey)
+status (enum -> Pending, Granted,Rejected)
+
+
+API
+
+uploadfile
+POST
+Path -> /file/upload
+Formdata ->
+
+deleteFile
+DELETE
+Path -> /file/delete/{id}
+-> if the user_id is the the owner only then we will be allowing this delete other wise. We can send an error
+
+requestAccess
+Post
+Path -> /file/{id}/request?type=READ/WRITE/READWRITE
+
+
+grantAccess
+Post
+path -> file/{id}/grantacess
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

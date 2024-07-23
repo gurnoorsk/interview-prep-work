@@ -1,0 +1,65 @@
+https://www.youtube.com/watch?v=dBmxNsS3BGE
+
+https://www.youtube.com/watch?v=aKMLgFVxZYk
+
+
+Static load balancing -> Do not depend on real time data and analytics. Simplicity
+
+1) Round Robin -> Simple and precise. Rotates requests to server sequencialy but can lead to overload servers if not
+monitored
+
+2) Sticky Round Robin -> Map users to servers and all the user requests go to particular server. Can cause load
+since newly arrived users are assigned randomly
+
+
+3) WeightedRoundRobin -> Assign wieght = priority . Greater the weight greater the portion of requests
+a server can handle. Downside? Weight must be manually configured
+
+4) Hash -> Hash the client ip or url to determine where to route the request. Hash can be tricky to chose
+
+
+Dynamic
+
+1) Least Current Connections/Open requests -> New requests are routed to the server where there is most
+remaining capacity.
+Doesn't Consider Server Capacity:
+
+The algorithm solely focuses on the current number of connections without taking into account the server's capacity.
+ A server might have a low number of active connections but could be nearing its resource limits in terms of CPU,
+ memory, or network bandwidth.
+
+Doesn't Consider Connection Weight:
+
+Some connections may consume more resources than others. For example, a long-running or resource-intensive connection
+could impact server performance more than several lightweight connections.
+
+Susceptible to Fluctuations:
+
+If there are rapid fluctuations in the number of connections to a server, the algorithm may constantly shift traffic,
+leading to increased overhead. Frequent changes in the load balancing decisions can be undesirable.
+
+Doesn't Account for Backend Server Health:
+
+The algorithm doesn't inherently consider the health of the backend servers. A server with a low number of connections
+ might still be experiencing issues, such as high response times or errors,
+ that make it less suitable for handling new connections.
+
+Doesn't Adapt to Varying Workloads:
+
+"Least Current Connections" might not be the best choice for all types of applications or workloads.
+For example, if the workload is characterized by short-lived connections or bursts of traffic, other load balancing
+algorithms that consider factors like response times or server weights might be more suitable.
+
+No Consideration for Geographical Proximity:
+
+If your infrastructure spans multiple geographic locations, the "Least Current Connections" algorithm doesn't
+take into account the physical proximity of the servers to the clients. This could potentially lead to suboptimal
+routing decisions.
+
+
+2) Least Response time -> Highly adaptive and reactive send incomming requests to the server with least latency or least response time.
+Cons -> requires constant monitoring and can cause overhead. Does not consider how many requests a server already has
+
+
+
+

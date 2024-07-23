@@ -1,0 +1,73 @@
+1) Bean definition -> BeanDefinitionReader parses the configurations and creates bean definition objects. Bean definition objects contains
+meta data about the bean like
+#class of the bean
+#scope of the bean
+#properties of the bean
+#type of dependency injection
+#which constructor to use
+#autowiring mode
+#init method @PostConstruct
+#destruction method @PreDestroy
+
+
+2) BeanFactoryPostProcessor -> Tweaks bean definitions before bean creation
+
+3) BeanFactory or Application Context -> Bean is instantiated using constructor and setters.
+
+4) BeanPostProcessor -> adjusts beans in the first pass (after the object is fully created but before initialisation).
+
+5) Init method for bean and the bean gets initialised. The method should return void, have no parameters,
+ and can have any access modifier, as Spring uses reflection to locate and invoke it.
+ The method may throw exceptions.
+ The purpose of the init-method, even though we have constructors, is to manage two-phase initialization.
+ In certain cases, you might want to manipulate the fields of the bean from its constructor,
+ but the object is not fully created at that point.
+  Manipulating bean properties that are objects within the constructor can lead to NullPointerExceptions.
+  Thus, two-phase initialization is needed — fields can be initialized from the init-method,
+  which is called after the bean is constructed.
+
+6) BeanPostProcessor 2nd pass -> if you need to wrap a proxy around the bean, or in case of circular dependencies
+
+INFO -> The BeanPostProcessor interface allows interference in the bean configuration process before they enter
+the container. The interface has two methods:
+
+          postProcessBeforeInitialization: This method is called before the init-method (if defined) and returns
+          the bean.
+          postProcessAfterInitialization: This method is called after the init-method (if defined) and also returns
+          the bean.
+          Both methods are executed for each bean. They share the same parameters. The key difference is the order
+          of their execution. The first method is called before the init-method, while the second is called after.
+          It’s important to note that at this stage, the bean instance is already created, and its customization is
+          ongoing. Two important points to consider are:
+
+          Both methods must ultimately return the bean. Returning null from these methods will result in receiving
+           null when requesting the bean from the context.
+          If you intend to create a proxy over your object, it’s advisable to do it after calling the init-method,
+          meaning it should be done in the postProcessAfterInitialization method.
+          BeanPostProcessor methods will be executed sequentially. The postProcessBeforeInitialization method is
+          invoked first, followed by the init-method, and then the postProcessAfterInitialization method.
+
+          Initialization of the bean occurs through the invocation of the init-method immediately after the bean
+          is created and its dependencies are injected. The method should return void, have no parameters,
+           and can have any access modifier, as Spring uses reflection to locate and invoke it.
+           The method may throw exceptions.
+
+7) The fully created bean is stored in the context.
+
+8) When the context is being destroyed, the destroy method of the bean is called
+
+Fully created beans are stored in a map called “singletonObjects,” which is a ConcurrentHashMap within the
+DefaultSingletonBeanRegistry class.
+
+During bean destruction, the context throws pre-destruction events (a feature of any IoC container).
+This allows beans to receive notifications, or events, during specific phases of their lifecycle,
+such as post-initialization events and pre-destruction events.
+During this process, post-init lifecycle callback methods are invoked for all beans regardless of their scope.
+Pre-destruction methods are called for all beans except prototypes.
+This is because prototypes are not tracked by the container and are not stored in any maps.
+The context creates prototypes, hands them over, and then forgets about them.
+
+
+https://medium.com/@TheTechDude/spring-bean-lifecycle-full-guide-f865966e89ce
+
+

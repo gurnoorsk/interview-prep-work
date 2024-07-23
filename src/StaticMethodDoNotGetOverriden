@@ -1,0 +1,37 @@
+In Java, static methods cannot be overridden in the traditional sense,
+as they are associated with the class rather than with instances of the class. When you declare a static method
+with the same signature in a subclass, it is said to "hide" the static method in the superclass rather than override it.
+
+Consider the following example:
+
+class Superclass {
+    static void staticMethod() {
+        System.out.println("Static method in Superclass");
+    }
+}
+
+class Subclass extends Superclass {
+    static void staticMethod() {
+        System.out.println("Static method in Subclass");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Superclass.staticMethod(); // Calls the static method in Superclass
+        Subclass.staticMethod();   // Calls the static method in Subclass
+
+        // Accessing through reference variables
+        Superclass superClassRef = new Subclass();
+        superClassRef.staticMethod(); // Calls the static method in Superclass
+    }
+}
+
+
+In this example, even when accessed through a reference variable of the superclass type pointing to an
+
+instance of the subclass (Superclass superClassRef = new Subclass();), the static method called is the one in the superclass.
+
+In summary, static methods are associated with the class itself and are not polymorphic.
+They are determined at compile-time based on the type of the reference variable, and the concept of method
+overriding (as seen with instance methods) does not apply to static methods.

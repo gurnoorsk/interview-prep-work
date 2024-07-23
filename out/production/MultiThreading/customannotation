@@ -1,0 +1,19 @@
+https://medium.com/thefreshwrites/create-your-own-custom-annotation-in-spring-boot-be6ac6452c88
+
+
+@Target({Method}) -> takes a enum {method,class,constructor,field etc}
+@Retention(Runtime,Source,Class) ->  default is class
+public @interface MyAnnotation{
+}
+
+@Aspect
+@Component
+public class EnableMyAnnotationAspect{
+    @Around("@annotation(MyAnnotaiton)")
+    public Object doAction(JoinPoint joinPoint){
+        Object proceed = joinPoint.proceed(); // executed the method and return the output
+
+        return proceed;
+    }
+}
+
